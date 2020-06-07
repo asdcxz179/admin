@@ -1,0 +1,19 @@
+{
+	"common":{
+		"account":"Account",
+		"email":"E-mail",
+		"login":"Sign In",
+		"name":"Name",
+		"password":"Passwrd",
+		"password_confirm":"Confirm Password",
+		"register":"Sign Up",
+		"undefind-error":"Unknow Error",
+		"system-error":"System Error"
+	},
+	"login-page":{
+		"title":"Member Login"
+	},
+	"register-page":{
+		"title":"Member Register"
+	}
+}

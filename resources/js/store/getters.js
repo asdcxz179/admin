@@ -1,0 +1,1 @@
+export const getLang = state => { return state.language };
