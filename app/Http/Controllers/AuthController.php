@@ -9,35 +9,6 @@ use Auth;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
-    {
-        $v = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users',
-            'password'  => 'required|min:3|confirmed',
-            'name' 	=>	'required',
-        ]);
-        if ($v->fails())
-        {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $v->errors()
-            ], 422);
-        }
-        $user = new User;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->name = $request->name;
-        $user->save();
-        return response()->json(['status' => 'success'], 200);
-    }
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-        if ($token = $this->guard()->attempt($credentials)) {
-            return response()->json(['status' => 'success'], 200)->header('Authorization', $token);
-        }
-        return response()->json(['error' => 'login_error'], 401);
-    }
     public function logout()
     {
         $this->guard()->logout();
