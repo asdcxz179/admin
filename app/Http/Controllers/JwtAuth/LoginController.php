@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Exception;
 use App\User;
 use App\UserInfo;
+use Yadahan\AuthenticationLog\AuthenticationLog;
+use Illuminate\Support\Carbon;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -57,10 +60,16 @@ class LoginController extends Controller
                 if(!$result){
                     throw new Exception(trans('common.ServiceError'));
                 }
+                $ip = $request->ip();
+                $userAgent = $request->userAgent();
+                $authenticationLog = new AuthenticationLog([
+                    'ip_address' => $ip,
+                    'user_agent' => $userAgent,
+                    'login_at' => Carbon::now(),
+                ]);
+                User::find(Auth::id())->authentications()->save($authenticationLog);
+                
                 $this->data['token']    =   $token;
-                $this->header   =   [
-                                        'Authorization' =>  'Bearer '.$token,
-                                    ];
                 $this->status   =   'success';
                 $this->msg      =   trans('common.LoginSuccess');
             }catch(Exception $e){
