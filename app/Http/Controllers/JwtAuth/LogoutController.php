@@ -19,6 +19,7 @@ class LogoutController extends Controller
     public function index(Request $request)
     {
         try{
+            auth()->logout();
             $result     =   UserInfo::where(['user_id'=>auth()->user()->id,'key'=>'token'])->update(['value'=>'']);
             if(!$result){
                 throw new Exception(trans('common.ServiceError'));
