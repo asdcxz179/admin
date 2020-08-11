@@ -67,8 +67,10 @@ class LoginController extends Controller
                     'user_agent' => $userAgent,
                     'login_at' => Carbon::now(),
                 ]);
-                User::find(Auth::id())->authentications()->save($authenticationLog);
-                
+                $result     =   User::find(Auth::id())->authentications()->save($authenticationLog);
+                if(!$result){
+                    throw new Exception(trans('common.ServiceError'));
+                }
                 $this->data['token']    =   $token;
                 $this->status   =   'success';
                 $this->msg      =   trans('common.LoginSuccess');

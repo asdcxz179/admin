@@ -4,6 +4,10 @@ namespace App\Http\Controllers\JwtAuth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\User;
+use Auth;
+use Illuminate\Support\Carbon;
+use App\UserInfo;
 
 class LogoutController extends Controller
 {
@@ -12,9 +16,35 @@ class LogoutController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        try{
+            $result     =   UserInfo::where(['user_id'=>auth()->user()->id,'key'=>'token'])->update(['value'=>'']);
+            if(!$result){
+                throw new Exception(trans('common.ServiceError'));
+            }
+            $user = User::find(Auth::id());
+            $ip = $request->ip();
+            $userAgent = $request->userAgent();
+            $authenticationLog = $user->authentications()->whereIpAddress($ip)->whereUserAgent($userAgent)->first();
+            if (! $authenticationLog) {
+                $authenticationLog = new AuthenticationLog([
+                    'ip_address' => $ip,
+                    'user_agent' => $userAgent,
+                ]);
+            }
+            $authenticationLog->logout_at = Carbon::now();
+            $result     =   $user->authentications()->save($authenticationLog);
+            if(!$result){
+                throw new Exception(trans('common.ServiceError'));
+            }
+            $this->status   =   'success';
+            $this->msg      =   trans('common.LogoutSuccess');
+        }catch(Exception $e){
+            $this->msg  =   $e->getMessage();
+        }
+        return $this->ReturnHandle();
+        
     }
 
     /**

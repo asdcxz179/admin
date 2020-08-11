@@ -31,9 +31,11 @@ return [
                             ],
     /* 反饋信息 */
     'LoginSuccess'      =>  '登入成功',
+    'LogoutSuccess'     =>  '登出成功',
     'LoginFail'         =>  '登入失敗，請檢查帳號或密碼是否正確',
     'RegisterSuccess'   =>  '註冊成功',
     'ServiceError'      =>  '伺服器錯誤，請聯繫站點人員。',
+    'Unauthorized'      =>  '禁止訪問',
 
 
 ];
