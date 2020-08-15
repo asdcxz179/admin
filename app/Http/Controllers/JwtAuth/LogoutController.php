@@ -8,6 +8,7 @@ use App\User;
 use Auth;
 use Illuminate\Support\Carbon;
 use App\UserInfo;
+use Exception;
 
 class LogoutController extends Controller
 {
@@ -22,7 +23,7 @@ class LogoutController extends Controller
             auth()->logout();
             $result     =   UserInfo::where(['user_id'=>auth()->user()->id,'key'=>'token'])->update(['value'=>'']);
             if(!$result){
-                throw new Exception(trans('common.ServiceError'));
+                throw new Exception($this->ReturnError('common.ServiceError',__LINE__));
             }
             $user = User::find(Auth::id());
             $ip = $request->ip();
@@ -37,11 +38,12 @@ class LogoutController extends Controller
             $authenticationLog->logout_at = Carbon::now();
             $result     =   $user->authentications()->save($authenticationLog);
             if(!$result){
-                throw new Exception(trans('common.ServiceError'));
+                throw new Exception($this->ReturnError('common.ServiceError',__LINE__));
             }
             $this->status   =   'success';
             $this->msg      =   trans('common.LogoutSuccess');
         }catch(Exception $e){
+            $this->ReturnError($e->getMessage(),__LINE__);
             $this->msg  =   $e->getMessage();
         }
         return $this->ReturnHandle();

@@ -58,11 +58,12 @@ class RegisterController extends Controller
 
 	        	$InsertResult 	=	User::create($InsertData);
 	        	if(!$InsertResult){
-	        		throw new Exception(trans('common.ServiceError'));
+	        		throw new Exception($this->ReturnError('common.ServiceError',__LINE__));
 	        	}
 	        	$this->status 	=	'success';
 	        	$this->msg 		=	trans('common.RegisterSuccess');
 	        }catch(Exception $e){
+                $this->ReturnError($e->getMessage(),__LINE__);
 	        	$this->msg  =   $e->getMessage();
 	        }	
         }

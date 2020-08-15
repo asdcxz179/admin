@@ -54,11 +54,11 @@ class LoginController extends Controller
                 $credentials = request(['username', 'password']);
                 if (! $token = auth()->attempt($credentials)) {
                     $this->status_code  =   401;
-                    throw new Exception(trans('common.LoginFail'));
+                    throw new Exception($this->ReturnError('common.LoginFail',__LINE__));
                 }
                 $result     =   UserInfo::updateOrCreate(['user_id'=>auth()->user()->id],['key'=>'token','value'=>$token]);
                 if(!$result){
-                    throw new Exception(trans('common.ServiceError'));
+                    throw new Exception($this->ReturnError('common.ServiceError',__LINE__));
                 }
                 $ip = $request->ip();
                 $userAgent = $request->userAgent();
@@ -69,12 +69,13 @@ class LoginController extends Controller
                 ]);
                 $result     =   User::find(Auth::id())->authentications()->save($authenticationLog);
                 if(!$result){
-                    throw new Exception(trans('common.ServiceError'));
+                    throw new Exception($this->ReturnError('common.ServiceError',__LINE__));
                 }
                 $this->data['token']    =   $token;
                 $this->status   =   'success';
                 $this->msg      =   trans('common.LoginSuccess');
             }catch(Exception $e){
+                $this->ReturnError($e->getMessage(),__LINE__);
                 $this->msg  =   $e->getMessage();
             }   
         }

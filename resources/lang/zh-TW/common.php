@@ -29,6 +29,10 @@ return [
                                 'name'      =>  '名稱',
                                 'password'  =>  $password,
                             ],
+
+    'Validate_Group'    =>  [
+                                'name'      =>  '群組名稱',
+                            ],
     /* 反饋信息 */
     'LoginSuccess'      =>  '登入成功',
     'LogoutSuccess'     =>  '登出成功',
@@ -36,6 +40,11 @@ return [
     'RegisterSuccess'   =>  '註冊成功',
     'ServiceError'      =>  '伺服器錯誤，請聯繫站點人員。',
     'Unauthorized'      =>  '禁止訪問',
-
+    'InsertSuccess'     =>  '新增成功',
+    'InsertFail'        =>  '新增失敗，請聯繫站點人員。',
+    'UpdateSuccess'     =>  '更新成功',
+    'UpdateFail'        =>  '更新失敗，請聯繫站點人員。',
+    'DeleteSuccess'     =>  '刪除成功',
+    'DeleteFail'        =>  '刪除失敗，請聯繫站點人員。',
 
 ];

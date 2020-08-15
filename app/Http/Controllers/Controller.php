@@ -8,8 +8,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Repositories\RestfulRepository;
 use App\Repositories\ValidateRepository;
+use App\Repositories\ErrorHandleRepository;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests,RestfulRepository,ValidateRepository;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests,RestfulRepository,ValidateRepository,ErrorHandleRepository;
 }

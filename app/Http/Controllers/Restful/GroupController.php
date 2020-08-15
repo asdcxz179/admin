@@ -5,10 +5,15 @@ namespace App\Http\Controllers\Restful;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Group;
+use Exception;
 
 class GroupController extends Controller
 {
     protected $InsertRules  =   [
+                                    'name'  =>  ['required','string'],
+                                ];
+
+    protected $UpdateRules  =   [
                                     'name'  =>  ['required','string'],
                                 ];
     /**
@@ -19,9 +24,10 @@ class GroupController extends Controller
     public function index()
     {
         try{
-            $this->data     =   Group::get();
+            $this->data     =   Group::select(['id','name'])->get();
             $this->status   =   'success';
         }catch(Exception $e){
+            $this->ReturnError($e->getMessage(),__LINE__);
             $this->msg  =   $e->getMessage();
         }
         return $this->ReturnHandle();
@@ -48,13 +54,14 @@ class GroupController extends Controller
         $Validator  =   $this->MakeValidate($request);
         if($Validator){
             try{
-                $result     =   Group::insert(['name'=>$request->name]);
-                if(!$result){
-                    throw new Exception(trans('common.ServiceError'));
+                $result     =   Group::create(['name'=>$request->name]);
+                if($result){
+                    throw new Exception($this->ReturnError('common.InsertFail',__LINE__));
                 }
                 $this->status   =   'success';
                 $this->msg      =   trans('common.InsertSuccess');
             }catch(Exception $e){
+                $this->ReturnError($e->getMessage(),__LINE__);
                 $this->msg  =   $e->getMessage();
             }   
         }
@@ -69,7 +76,14 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        //
+        try{
+            $this->data     =   Group::where(['id'=>$id])->select(['id','name'])->first();
+            $this->status   =   'success';
+        }catch(Exception $e){
+            $this->ReturnError($e->getMessage(),__LINE__);
+            $this->msg  =   $e->getMessage();
+        }
+        return $this->ReturnHandle();
     }
 
     /**
@@ -92,7 +106,21 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $Validator  =   $this->MakeValidate($request);
+        if($Validator){
+            try{
+                $result     =   Group::where(['id'=>$id])->update(['name'=>$request->name]);
+                if(!$result){
+                    throw new Exception($this->ReturnError('common.UpdateFail',__LINE__));
+                }
+                $this->status   =   'success';
+                $this->msg      =   trans('common.UpdateSuccess');
+            }catch(Exception $e){
+                $this->ReturnError($e->getMessage(),__LINE__);
+                $this->msg  =   $e->getMessage();
+            }   
+        }
+        return $this->ReturnHandle();
     }
 
     /**
