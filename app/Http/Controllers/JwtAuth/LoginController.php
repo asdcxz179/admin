@@ -14,10 +14,10 @@ use Auth;
 class LoginController extends Controller
 {
 
+    public $captcha_api =   true;
     protected $InsertRules  =   [
                                     'username'  =>  ['required','string','between:6,12','exists:users,username'],
                                     'password'  =>  ['required','string','between:6,12'],
-                                    // 'captcha'   =>  ['required','captcha'],
                                 ];
 
     /**

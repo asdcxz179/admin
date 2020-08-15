@@ -11,6 +11,8 @@ Trait ValidateRepository
 {
 	public $Rules 	=	[];
 	public $SetAttributeNames	=	[];
+    public $captcha =   false;
+    public $captcha_api =   false;
     public function MakeValidate($request){
     	$RouteName 	=	explode(".", Route::currentRouteName());
     	$Name 		=	$RouteName[0];
@@ -35,6 +37,12 @@ Trait ValidateRepository
     	if(!$this->Rules){
     		return true;
     	}
+        if($this->captcha){
+            $this->Rules['captcha']  =   ['required','captcha'];
+        }
+        if($this->captcha_api){
+            $this->Rules['captcha']  =   ['required','captcha_api:'.$request->captcha_key];
+        }
     	$keys 	=	array_keys($this->Rules);
     	foreach ($keys as $value) {
     		$this->SetAttributeNames[$value] 	=	trans('common.'.'Validate_'.$Name.'.'.$value);

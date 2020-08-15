@@ -14,11 +14,14 @@ class CaptchaController extends Controller
      */
     public function index()
     {
-        return response()->array([
-            'status_code' => '200',
-            'message' => 'created succeed',
-            'url' => app('captcha')->create('default', true)
-        ]);
+        try{
+            $captcha    =   app('captcha')->create('default', true);
+            $this->status   =   'success';
+            $this->msg      =   $captcha;
+        }catch(Exception $e){
+            $this->msg  =   $e->getMessage();
+        }
+        return $this->ReturnHandle();
     }
 
     /**
