@@ -19,7 +19,7 @@ class CaptchaController extends Controller
             $this->status   =   'success';
             $this->msg      =   $captcha;
         }catch(Exception $e){
-            $this->ReturnError($e->getMessage(),__LINE__);
+            $this->ReturnError($e->getMessage());
             $this->msg  =   $e->getMessage();
         }
         return $this->ReturnHandle();

@@ -23,7 +23,7 @@ class LogoutController extends Controller
             auth()->logout();
             $result     =   UserInfo::where(['user_id'=>auth()->user()->id,'key'=>'token'])->update(['value'=>'']);
             if(!$result){
-                throw new Exception($this->ReturnError('common.ServiceError',__LINE__));
+                throw new Exception($this->ReturnError('common.ServiceError'));
             }
             $user = User::find(Auth::id());
             $ip = $request->ip();
@@ -38,12 +38,12 @@ class LogoutController extends Controller
             $authenticationLog->logout_at = Carbon::now();
             $result     =   $user->authentications()->save($authenticationLog);
             if(!$result){
-                throw new Exception($this->ReturnError('common.ServiceError',__LINE__));
+                throw new Exception($this->ReturnError('common.ServiceError'));
             }
             $this->status   =   'success';
             $this->msg      =   trans('common.LogoutSuccess');
         }catch(Exception $e){
-            $this->ReturnError($e->getMessage(),__LINE__);
+            $this->ReturnError($e->getMessage());
             $this->msg  =   $e->getMessage();
         }
         return $this->ReturnHandle();

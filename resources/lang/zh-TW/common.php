@@ -2,6 +2,7 @@
 
 $username   =   '帳號';
 $password   =   '密碼';
+$captcha    =   '驗證碼';
 
 return [
 
@@ -21,6 +22,7 @@ return [
     'Validate_Login'    =>  [
                                 'username'  =>  $username,
                                 'password'  =>  $password,
+                                'captcha'   =>  $captcha,
                             ],
 
     'Validate_Register' =>  [
@@ -28,10 +30,15 @@ return [
                                 'email'     =>  '電子信箱',
                                 'name'      =>  '名稱',
                                 'password'  =>  $password,
+                                'group'     =>  '群組',
                             ],
 
     'Validate_Group'    =>  [
                                 'name'      =>  '群組名稱',
+                            ],
+
+    'Validate_Role'    =>  [
+                                'name'      =>  '角色名稱',
                             ],
     /* 反饋信息 */
     'LoginSuccess'      =>  '登入成功',

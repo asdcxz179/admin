@@ -5,8 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware as Middleware;
 use App\Repositories\RestfulRepository;
-
 use App\Repositories\UserInfoRepository;
+use Exception;
 
 class Authenticate extends Middleware
 {
@@ -35,7 +35,7 @@ class Authenticate extends Middleware
                 $this->status_code  =   401;
                 return false;
             }
-        } catch (JWTException $e) {
+        } catch (Exception $e) {
             $this->msg  =   $e->getMessage();
             $this->status_code  =   401;
             return false;

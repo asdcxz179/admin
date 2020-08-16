@@ -7,10 +7,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Yadahan\AuthenticationLog\AuthenticationLogable;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject,Auditable
 {
-    use Notifiable,AuthenticationLogable;
+    use Notifiable,AuthenticationLogable,\OwenIt\Auditing\Auditable;
 
     /**
      * The attributes that are mass assignable.

@@ -1,25 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\JwtAuth;
+namespace App\Http\Controllers\Restful;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Role;
 use Exception;
-use App\User;
-use App\UserInfo;
-use Yadahan\AuthenticationLog\AuthenticationLog;
-use Illuminate\Support\Carbon;
-use Auth;
 
-class LoginController extends Controller
+class RoleController extends Controller
 {
-
-    public $captcha_api =   true;
     protected $InsertRules  =   [
-                                    'username'  =>  ['required','string','between:6,12','exists:users,username'],
-                                    'password'  =>  ['required','string','between:6,12'],
+                                    'name'  =>  ['required','string'],
                                 ];
 
+    protected $UpdateRules  =   [
+                                    'name'  =>  ['required','string'],
+                                ];
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +23,14 @@ class LoginController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $this->data     =   Role::select(['id','name'])->get();
+            $this->status   =   'success';
+        }catch(Exception $e){
+            $this->ReturnError($e->getMessage());
+            $this->msg  =   $e->getMessage();
+        }
+        return $this->ReturnHandle();
     }
 
     /**
@@ -51,29 +54,12 @@ class LoginController extends Controller
         $Validator  =   $this->MakeValidate($request);
         if($Validator){
             try{
-                $credentials = request(['username', 'password']);
-                if (! $token = auth()->attempt($credentials)) {
-                    $this->status_code  =   401;
-                    throw new Exception($this->ReturnError('common.LoginFail'));
-                }
-                $result     =   UserInfo::updateOrCreate(['user_id'=>auth()->user()->id],['key'=>'token','value'=>$token]);
+                $result     =   Role::create(['name'=>$request->name]);
                 if(!$result){
-                    throw new Exception($this->ReturnError('common.ServiceError'));
+                    throw new Exception($this->ReturnError('common.InsertFail'));
                 }
-                $ip = $request->ip();
-                $userAgent = $request->userAgent();
-                $authenticationLog = new AuthenticationLog([
-                    'ip_address' => $ip,
-                    'user_agent' => $userAgent,
-                    'login_at' => Carbon::now(),
-                ]);
-                $result     =   User::find(Auth::id())->authentications()->save($authenticationLog);
-                if(!$result){
-                    throw new Exception($this->ReturnError('common.ServiceError'));
-                }
-                $this->data['token']    =   $token;
                 $this->status   =   'success';
-                $this->msg      =   trans('common.LoginSuccess');
+                $this->msg      =   trans('common.InsertSuccess');
             }catch(Exception $e){
                 $this->ReturnError($e->getMessage());
                 $this->msg  =   $e->getMessage();
@@ -90,7 +76,14 @@ class LoginController extends Controller
      */
     public function show($id)
     {
-        //
+        try{
+            $this->data     =   Role::where(['id'=>$id])->select(['id','name'])->first();
+            $this->status   =   'success';
+        }catch(Exception $e){
+            $this->ReturnError($e->getMessage());
+            $this->msg  =   $e->getMessage();
+        }
+        return $this->ReturnHandle();
     }
 
     /**
@@ -113,7 +106,21 @@ class LoginController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $Validator  =   $this->MakeValidate($request);
+        if($Validator){
+            try{
+                $result     =   Role::where(['id'=>$id])->update(['name'=>$request->name]);
+                if(!$result){
+                    throw new Exception($this->ReturnError('common.UpdateFail'));
+                }
+                $this->status   =   'success';
+                $this->msg      =   trans('common.UpdateSuccess');
+            }catch(Exception $e){
+                $this->ReturnError($e->getMessage());
+                $this->msg  =   $e->getMessage();
+            }   
+        }
+        return $this->ReturnHandle();
     }
 
     /**

@@ -27,7 +27,7 @@ class GroupController extends Controller
             $this->data     =   Group::select(['id','name'])->get();
             $this->status   =   'success';
         }catch(Exception $e){
-            $this->ReturnError($e->getMessage(),__LINE__);
+            $this->ReturnError($e->getMessage());
             $this->msg  =   $e->getMessage();
         }
         return $this->ReturnHandle();
@@ -55,13 +55,13 @@ class GroupController extends Controller
         if($Validator){
             try{
                 $result     =   Group::create(['name'=>$request->name]);
-                if($result){
-                    throw new Exception($this->ReturnError('common.InsertFail',__LINE__));
+                if(!$result){
+                    throw new Exception($this->ReturnError('common.InsertFail'));
                 }
                 $this->status   =   'success';
                 $this->msg      =   trans('common.InsertSuccess');
             }catch(Exception $e){
-                $this->ReturnError($e->getMessage(),__LINE__);
+                $this->ReturnError($e->getMessage());
                 $this->msg  =   $e->getMessage();
             }   
         }
@@ -80,7 +80,7 @@ class GroupController extends Controller
             $this->data     =   Group::where(['id'=>$id])->select(['id','name'])->first();
             $this->status   =   'success';
         }catch(Exception $e){
-            $this->ReturnError($e->getMessage(),__LINE__);
+            $this->ReturnError($e->getMessage());
             $this->msg  =   $e->getMessage();
         }
         return $this->ReturnHandle();
@@ -111,12 +111,12 @@ class GroupController extends Controller
             try{
                 $result     =   Group::where(['id'=>$id])->update(['name'=>$request->name]);
                 if(!$result){
-                    throw new Exception($this->ReturnError('common.UpdateFail',__LINE__));
+                    throw new Exception($this->ReturnError('common.UpdateFail'));
                 }
                 $this->status   =   'success';
                 $this->msg      =   trans('common.UpdateSuccess');
             }catch(Exception $e){
-                $this->ReturnError($e->getMessage(),__LINE__);
+                $this->ReturnError($e->getMessage());
                 $this->msg  =   $e->getMessage();
             }   
         }

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use Exception;
+use App\UserInfo;
+use DB;
 
 class RegisterController extends Controller
 {
@@ -16,6 +18,8 @@ class RegisterController extends Controller
     								'email'		=>	['required','string','email','max:255','unique:users'],
             						'name'		=>	['required','string','max:20'],
             						'password'	=>	['required','string','between:6,12','confirmed'],
+                                    'group'     =>  ['required','exists:group,id'],
+                                    'role'      =>  ['required','exists:role,id'],
     							];
 
     /**
@@ -49,6 +53,7 @@ class RegisterController extends Controller
         $Validator 	=	$this->MakeValidate($request);
         if($Validator){
         	try{
+                DB::beginTransaction();
 	        	$InsertData 	=	[
 	        							'username'	=>	$request->username,
 	            						'name'		=>	$request->name,
@@ -58,12 +63,26 @@ class RegisterController extends Controller
 
 	        	$InsertResult 	=	User::create($InsertData);
 	        	if(!$InsertResult){
-	        		throw new Exception($this->ReturnError('common.ServiceError',__LINE__));
+	        		throw new Exception($this->ReturnError('common.ServiceError'));
 	        	}
+                $UserId     =   $InsertResult->id;
+                foreach (['group','role'] as $type) {
+                    $InsertData =   [
+                                        'user_id'   =>  $UserId,
+                                        'key'       =>  $type,
+                                        'value'     =>  $request->{$type},
+                                    ];
+                    $InsertResult   =   UserInfo::create($InsertData);
+                    if(!$InsertResult){
+                        throw new Exception($this->ReturnError('common.ServiceError'));
+                    }
+                }
+                DB::commit();
 	        	$this->status 	=	'success';
 	        	$this->msg 		=	trans('common.RegisterSuccess');
 	        }catch(Exception $e){
-                $this->ReturnError($e->getMessage(),__LINE__);
+                DB::rollBack();
+                $this->ReturnError($e->getMessage());
 	        	$this->msg  =   $e->getMessage();
 	        }	
         }
