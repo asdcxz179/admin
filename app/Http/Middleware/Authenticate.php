@@ -28,8 +28,14 @@ class Authenticate extends Middleware
 
     public function authenticate($request)
     {
-        $this->checkForToken($request);
+        
         try {
+            $check  =   $this->checkForToken($request);
+            if(!$check){
+                $this->status_code  =   401;
+                $this->msg  =   trans('common.Unauthorized');
+                return false;
+            }
             if (! $this->auth->parseToken()->authenticate()) {
                 $this->msg  =   trans('common.UserNotFound');
                 $this->status_code  =   401;
@@ -38,6 +44,14 @@ class Authenticate extends Middleware
         } catch (Exception $e) {
             $this->msg  =   $e->getMessage();
             $this->status_code  =   401;
+            return false;
+        }
+        return true;
+    }
+
+    public function checkForToken($request)
+    {
+        if (! $this->auth->parser()->setRequest($request)->hasToken()) {
             return false;
         }
         return true;

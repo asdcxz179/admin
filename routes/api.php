@@ -22,6 +22,7 @@ Route::prefix('v1')->group(function () {
 	Route::resource('Captcha', 'Restful\CaptchaController',['only' => ['index']]);
 	Route::resource('Login', 'JwtAuth\LoginController',['only' => ['store']]);
     Route::group(['middleware' => 'auth:api'], function(){
+        Route::resource('Check', 'JwtAuth\CheckController',['only' => ['index']]);
         Route::resource('Register', 'JwtAuth\RegisterController',['only' => ['store']]);
         Route::get('user', 'AuthController@user');
         Route::resource('Refresh', 'JwtAuth\RefreshController',['only' => ['index']]);
