@@ -17,6 +17,8 @@ class CreateRouteTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('parent_id');
+            $table->string('icon')->nullable();
+            $table->string('link')->nullable();
             $table->smallInteger('seq')->nullable();
             $table->tinyInteger('status');
             $table->timestamps();

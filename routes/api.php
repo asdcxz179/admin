@@ -29,5 +29,6 @@ Route::prefix('v1')->group(function () {
         Route::resource('Logout', 'JwtAuth\LogoutController',['only' => ['index']]);
         Route::resource('Group', 'Restful\GroupController',['only' => ['index','show','store','update']]);
         Route::resource('Role', 'Restful\RoleController',['only' => ['index','show','store','update']]);
+        Route::resource('Route', 'Restful\RouteController',['only' => ['index']]);
     });
 });
