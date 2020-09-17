@@ -18,8 +18,9 @@ class RouteSeeder extends Seeder
 	        	'id'		=>	1,
 	        	'name'		=>	'site_settings',
 	        	'parent_id'	=>	0,
-	        	'seq'		=>	0,
+	        	'seq'		=>	1,
 	        	'icon'		=>	'fa-cogs',
+	        	'link'		=>	NULL,
 	        	'status'	=>	1,
 	        	'created_at'=>	Carbon::now(),
 	        ],[
@@ -28,6 +29,16 @@ class RouteSeeder extends Seeder
 	        	'parent_id'	=>	1,
 	        	'seq'		=>	0,
 	        	'icon'		=>	'fa-wrench',
+	        	'link'		=>	'Settings',
+	        	'status'	=>	1,
+	        	'created_at'=>	Carbon::now(),
+	        ],[
+	        	'id'		=>	3,
+	        	'name'		=>	'dashbaord',
+	        	'parent_id'	=>	0,
+	        	'seq'		=>	0,
+	        	'icon'		=>	'fa-tachometer-alt',
+	        	'link'		=>	'Dashbaord',
 	        	'status'	=>	1,
 	        	'created_at'=>	Carbon::now(),
 	        ]

@@ -20,12 +20,13 @@ class LogoutController extends Controller
     public function index(Request $request)
     {
         try{
+            $user_id    =   auth()->user()->id;
             auth()->logout();
-            $result     =   UserInfo::where(['user_id'=>auth()->user()->id,'key'=>'token'])->update(['value'=>'']);
+            $result     =   UserInfo::where(['user_id'=>$user_id,'key'=>'token'])->update(['value'=>'']);
             if(!$result){
                 throw new Exception($this->ReturnError('common.ServiceError'));
             }
-            $user = User::find(Auth::id());
+            $user = User::find($user_id);
             $ip = $request->ip();
             $userAgent = $request->userAgent();
             $authenticationLog = $user->authentications()->whereIpAddress($ip)->whereUserAgent($userAgent)->first();

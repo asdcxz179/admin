@@ -24,6 +24,7 @@ class RouteController extends Controller
                                                     'icon'      =>  $route->icon,
                                                     'text'      =>  $route->name,
                                                     'icon-alt'  =>  'mdi-chevron-down',
+                                                    'link'      =>  $route->link,
                                                 ];
                 }else{
                     if(isset($this->data[$route->parent_id])){
