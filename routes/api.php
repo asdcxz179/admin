@@ -30,5 +30,6 @@ Route::prefix('v1')->group(function () {
         Route::resource('Group', 'Restful\GroupController',['only' => ['index','show','store','update']]);
         Route::resource('Role', 'Restful\RoleController',['only' => ['index','show','store','update']]);
         Route::resource('Route', 'Restful\RouteController',['only' => ['index']]);
+        Route::resource('Manager', 'Restful\ManagerController',['only' => ['index']]);
     });
 });
