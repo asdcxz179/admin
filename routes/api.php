@@ -24,6 +24,7 @@ Route::prefix('v1')->group(function () {
     Route::group(['middleware' => 'auth:api'], function(){
         Route::resource('Check', 'JwtAuth\CheckController',['only' => ['index']]);
         Route::resource('Register', 'JwtAuth\RegisterController',['only' => ['store']]);
+        Route::resource('ChangePassword', 'JwtAuth\ChangePasswordController',['only' => ['update']]);
         Route::get('user', 'AuthController@user');
         Route::resource('Refresh', 'JwtAuth\RefreshController',['only' => ['index']]);
         Route::resource('Logout', 'JwtAuth\LogoutController',['only' => ['index']]);
