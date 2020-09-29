@@ -34,11 +34,11 @@ class RouteSeeder extends Seeder
 	        	'created_at'=>	Carbon::now(),
 	        ],[
 	        	'id'		=>	3,
-	        	'name'		=>	'dashbaord',
+	        	'name'		=>	'dashboard',
 	        	'parent_id'	=>	0,
 	        	'seq'		=>	0,
 	        	'icon'		=>	'fa-tachometer-alt',
-	        	'link'		=>	'Dashbaord',
+	        	'link'		=>	'Dashboard',
 	        	'status'	=>	1,
 	        	'created_at'=>	Carbon::now(),
 	        ]
