@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Restful;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use DataTables;
 
 class ManagerController extends Controller
 {
@@ -16,7 +17,8 @@ class ManagerController extends Controller
     public function index()
     {
         try{
-            $this->data     =   User::select(['username','name','email','id','created_at'])->get();
+            $this->data     =   User::select(['username','name','email','id','created_at']);
+            $this->data     =   DataTables::of($this->data)->make();
             $this->status   =   'success';
         }catch(Exception $e){
             $this->ReturnError($e->getMessage());
