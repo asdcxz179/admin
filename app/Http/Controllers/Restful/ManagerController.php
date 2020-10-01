@@ -5,24 +5,35 @@ namespace App\Http\Controllers\Restful;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
-use DataTables;
+use App\Repositories\DataTableRepository;
 
 class ManagerController extends Controller
 {
+
+    public $IndexRules  =   [
+                                'page'  =>  'numeric',
+                                'limit' =>  'numeric',
+                                'orderby'=> 'string',
+                                'sort'  =>  'in:asc,desc',
+                            ];
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        try{
-            $this->data     =   User::select(['username','name','email','id','created_at']);
-            $this->data     =   DataTables::of($this->data)->make();
-            $this->status   =   'success';
-        }catch(Exception $e){
-            $this->ReturnError($e->getMessage());
-            $this->msg  =   $e->getMessage();
+    public function index(DataTableRepository $DataTableRepository,Request $request)
+    {   
+        $Validator  =   $this->MakeValidate($request);
+        if($Validator){
+            try{
+                $this->data     =   User::select(['username','name','email','id','created_at']);
+                $this->data     =   $DataTableRepository->make($this->data);
+                $this->status   =   'success';
+            }catch(Exception $e){
+                $this->ReturnError($e->getMessage());
+                $this->msg  =   $e->getMessage();
+            }
         }
         return $this->ReturnHandle();
     }

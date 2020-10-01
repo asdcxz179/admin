@@ -18,6 +18,12 @@ Trait ValidateRepository
     	$Name 		=	$RouteName[0];
 		$Method 	=	$RouteName[1];
 		switch ($Method) {
+            case 'index':
+                if(isset($this->IndexRules)){
+                    $this->Rules    =   $this->IndexRules;
+                }
+                break;
+            break;
     		case 'store':
     			if(isset($this->InsertRules)){
     				$this->Rules 	=	$this->InsertRules;
