@@ -28,6 +28,8 @@ class ManagerController extends Controller
         if($Validator){
             try{
                 $this->data     =   User::select(['username','name','email','id','created_at']);
+                // $DataTableRepository->page  =   $request->page;
+                // $DataTableRepository->limit =   $request->limit;
                 $this->data     =   $DataTableRepository->make($this->data);
                 $this->status   =   'success';
             }catch(Exception $e){
