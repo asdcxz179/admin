@@ -15,11 +15,12 @@ class CreateUsersInfo extends Migration
     {
         Schema::create('users_info', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->unsignedInteger('user_id');
             $table->string('key')->comment('索引');
             $table->binary('value')->comment('屬性');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

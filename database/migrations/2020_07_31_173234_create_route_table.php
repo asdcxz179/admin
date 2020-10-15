@@ -14,7 +14,7 @@ class CreateRouteTable extends Migration
     public function up()
     {
         Schema::create('route', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name');
             $table->integer('parent_id');
             $table->string('icon')->nullable();

@@ -72,7 +72,7 @@ class LoginController extends Controller
                     throw new Exception($this->ReturnError('common.ServiceError'));
                 }
                 $this->data['token']    =   $token;
-                $this->data['uuid']     =   Auth::id();
+                $this->data['uuid']     =   Auth::user()->uuid;
                 $this->status   =   'success';
                 $this->msg      =   trans('common.LoginSuccess');
             }catch(Exception $e){

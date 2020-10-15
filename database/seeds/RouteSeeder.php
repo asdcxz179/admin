@@ -41,6 +41,15 @@ class RouteSeeder extends Seeder
 	        	'link'		=>	'Dashboard',
 	        	'status'	=>	1,
 	        	'created_at'=>	Carbon::now(),
+	        ],[
+	        	'id'		=>	4,
+	        	'name'		=>	'managers',
+	        	'parent_id'	=>	0,
+	        	'seq'		=>	0,
+	        	'icon'		=>	'fa-users-cog',
+	        	'link'		=>	'Managers',
+	        	'status'	=>	1,
+	        	'created_at'=>	Carbon::now(),
 	        ]
 	    ]);
     }
