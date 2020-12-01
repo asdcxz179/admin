@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Repositories\DataTableRepository;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use DB;
+use Exception;
+use App\UserInfo;
 
 class ManagerController extends Controller
 {
@@ -15,6 +20,12 @@ class ManagerController extends Controller
                                 'limit' =>  'numeric',
                                 'orderby'=> 'string',
                                 'sort'  =>  'in:asc,desc',
+                            ];
+
+    public $UpdateRules =   [
+                                'name'      =>  ['required','string','max:20'],
+                                'group'     =>  ['required','exists:group,id'],
+                                'role'      =>  ['required','exists:role,id'],
                             ];
 
     /**
@@ -69,7 +80,14 @@ class ManagerController extends Controller
      */
     public function show($id)
     {
-        //
+        try{
+            $this->data     =   User::with(['Info'])->select(['username','name','email','id'])->where('uuid',$id)->first();
+            $this->status   =   'success';
+        }catch(Exception $e){
+            $this->ReturnError($e->getMessage());
+            $this->msg  =   $e->getMessage();
+        }
+        return $this->ReturnHandle();
     }
 
     /**
@@ -92,7 +110,42 @@ class ManagerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if($request->password){
+            $this->UpdateRules['password']  =   ['required','string','between:6,12','confirmed'];
+        }
+        $Validator  =   $this->MakeValidate($request);
+        if($Validator){
+            try{
+                $User   =   User::where('uuid',$id)->select(['id'])->first();
+                $UserId =   $User->id;
+                DB::beginTransaction();
+                $UpdateData     =   [
+                                        'name'      =>  $request->name,
+                                    ];
+                if($request->password){
+                    $UpdateData['password'] =   Hash::make($request->password);
+                }
+                $UpdateResult   =   User::where('id',$UserId)->update($UpdateData);
+                if(!$UpdateResult){
+                    throw new Exception($this->ReturnError('common.ServiceError'));
+                }
+                foreach (['group','role'] as $type) {
+                    $UpdateData =   [
+                                        'value'     =>  $request->{$type},
+                                    ];
+                    $UpdateResult   =   UserInfo::updateOrCreate($UpdateData,['user_id'=>$UserId,'key'=>$type]);
+                    if(!$UpdateResult){
+                        throw new Exception($this->ReturnError('common.ServiceError'));
+                    }
+                }
+                DB::commit();
+                $this->status   =   'success';
+            }catch(Exception $e){
+                $this->ReturnError($e->getMessage());
+                $this->msg  =   $e->getMessage();
+            }
+        }
+        return $this->ReturnHandle();
     }
 
     /**

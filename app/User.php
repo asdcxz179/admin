@@ -40,6 +40,10 @@ class User extends Authenticatable implements JWTSubject,Auditable
         'email_verified_at' => 'datetime',
     ];
 
+    public function Info(){
+        return $this->hasMany('App\UserInfo','user_id','id')->select(['key','value','user_id'])->where('key','!=','token');
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
