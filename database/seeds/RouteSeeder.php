@@ -50,6 +50,24 @@ class RouteSeeder extends Seeder
 	        	'link'		=>	'Managers',
 	        	'status'	=>	1,
 	        	'created_at'=>	Carbon::now(),
+	        ],[
+	        	'id'		=>	5,
+	        	'name'		=>	'manager_group',
+	        	'parent_id'	=>	0,
+	        	'seq'		=>	0,
+	        	'icon'		=>	NULL,
+	        	'link'		=>	'ManagerGroup',
+	        	'status'	=>	1,
+	        	'created_at'=>	Carbon::now(),
+	        ],[
+	        	'id'		=>	6,
+	        	'name'		=>	'manager_role',
+	        	'parent_id'	=>	0,
+	        	'seq'		=>	0,
+	        	'icon'		=>	NULL,
+	        	'link'		=>	'ManagerRole',
+	        	'status'	=>	1,
+	        	'created_at'=>	Carbon::now(),
 	        ]
 	    ]);
     }

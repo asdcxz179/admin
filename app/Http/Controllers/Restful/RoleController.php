@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Role;
 use Exception;
+use App\Repositories\DataTableRepository;
 
 class RoleController extends Controller
 {
@@ -21,10 +22,11 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(DataTableRepository $DataTableRepository,Request $request)
     {
         try{
-            $this->data     =   Role::select(['id','name'])->get();
+            $this->data     =   Role::select(['id','name','created_at']);
+            $this->data     =   $DataTableRepository->make($this->data);
             $this->status   =   'success';
         }catch(Exception $e){
             $this->ReturnError($e->getMessage());

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Group;
 use Exception;
+use App\Repositories\DataTableRepository;
 
 class GroupController extends Controller
 {
@@ -21,10 +22,11 @@ class GroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(DataTableRepository $DataTableRepository,Request $request)
     {
         try{
-            $this->data     =   Group::select(['id','name'])->get();
+            $this->data     =   Group::select(['id','name','created_at']);
+            $this->data     =   $DataTableRepository->make($this->data);
             $this->status   =   'success';
         }catch(Exception $e){
             $this->ReturnError($e->getMessage());

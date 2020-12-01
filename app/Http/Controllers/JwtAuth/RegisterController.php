@@ -10,6 +10,7 @@ use App\User;
 use Exception;
 use App\UserInfo;
 use DB;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -59,8 +60,8 @@ class RegisterController extends Controller
 	            						'name'		=>	$request->name,
 	            						'email'		=>	$request->email,
 	            						'password'	=>	Hash::make($request->password),
+                                        'uuid'      =>  Str::uuid(),
 	        						];
-
 	        	$InsertResult 	=	User::create($InsertData);
 	        	if(!$InsertResult){
 	        		throw new Exception($this->ReturnError('common.ServiceError'));
