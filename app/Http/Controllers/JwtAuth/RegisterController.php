@@ -61,6 +61,7 @@ class RegisterController extends Controller
 	            						'email'		=>	$request->email,
 	            						'password'	=>	Hash::make($request->password),
                                         'uuid'      =>  Str::uuid(),
+                                        'status'    =>  1,
 	        						];
 	        	$InsertResult 	=	User::create($InsertData);
 	        	if(!$InsertResult){

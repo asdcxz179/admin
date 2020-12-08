@@ -56,7 +56,7 @@ class LoginController extends Controller
                     $this->status_code  =   401;
                     throw new Exception($this->ReturnError('common.LoginFail'));
                 }
-                $result     =   UserInfo::updateOrCreate(['user_id'=>auth()->user()->id],['key'=>'token','value'=>$token]);
+                $result     =   UserInfo::updateOrCreate(['user_id'=>auth()->user()->id,'key'=>'token'],['value'=>$token]);
                 if(!$result){
                     throw new Exception($this->ReturnError('common.ServiceError'));
                 }

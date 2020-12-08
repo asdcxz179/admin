@@ -38,9 +38,9 @@ class ManagerController extends Controller
         $Validator  =   $this->MakeValidate($request);
         if($Validator){
             try{
-                $this->data     =   User::select(['username','name','email','created_at','uuid']);
-                // $DataTableRepository->page  =   $request->page;
-                // $DataTableRepository->limit =   $request->limit;
+                $this->data     =   User::select(['username','name','email','created_at','uuid','status']);
+                $DataTableRepository->page  =   $request->page;
+                $DataTableRepository->limit =   $request->limit;
                 $this->data     =   $DataTableRepository->make($this->data);
                 $this->status   =   'success';
             }catch(Exception $e){
@@ -133,7 +133,7 @@ class ManagerController extends Controller
                     $UpdateData =   [
                                         'value'     =>  $request->{$type},
                                     ];
-                    $UpdateResult   =   UserInfo::updateOrCreate($UpdateData,['user_id'=>$UserId,'key'=>$type]);
+                    $UpdateResult   =   UserInfo::updateOrCreate(['user_id'=>$UserId,'key'=>$type],$UpdateData);
                     if(!$UpdateResult){
                         throw new Exception($this->ReturnError('common.ServiceError'));
                     }
