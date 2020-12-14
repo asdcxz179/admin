@@ -86,6 +86,7 @@ return [
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
     'captcha'              => '验证码错误',
+    'captcha_api'          => '验证码错误',
 
     /*
     |--------------------------------------------------------------------------

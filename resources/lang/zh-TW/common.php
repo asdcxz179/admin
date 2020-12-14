@@ -23,6 +23,7 @@ return [
                                 'username'  =>  $username,
                                 'password'  =>  $password,
                                 'captcha'   =>  $captcha,
+                                'captcha_api'=>  $captcha,
                             ],
 
     'Validate_Register' =>  [
