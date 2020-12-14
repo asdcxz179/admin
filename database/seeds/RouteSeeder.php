@@ -44,7 +44,7 @@ class RouteSeeder extends Seeder
 	        ],[
 	        	'id'		=>	4,
 	        	'name'		=>	'managers',
-	        	'parent_id'	=>	0,
+	        	'parent_id'	=>	7,
 	        	'seq'		=>	0,
 	        	'icon'		=>	'fa-users-cog',
 	        	'link'		=>	'Managers',
@@ -53,7 +53,7 @@ class RouteSeeder extends Seeder
 	        ],[
 	        	'id'		=>	5,
 	        	'name'		=>	'manager_group',
-	        	'parent_id'	=>	0,
+	        	'parent_id'	=>	7,
 	        	'seq'		=>	0,
 	        	'icon'		=>	NULL,
 	        	'link'		=>	'ManagerGroup',
@@ -62,10 +62,19 @@ class RouteSeeder extends Seeder
 	        ],[
 	        	'id'		=>	6,
 	        	'name'		=>	'manager_role',
-	        	'parent_id'	=>	0,
+	        	'parent_id'	=>	7,
 	        	'seq'		=>	0,
 	        	'icon'		=>	NULL,
 	        	'link'		=>	'ManagerRole',
+	        	'status'	=>	1,
+	        	'created_at'=>	Carbon::now(),
+	        ],[
+	        	'id'		=>	7,
+	        	'name'		=>	'system_manager',
+	        	'parent_id'	=>	0,
+	        	'seq'		=>	2,
+	        	'icon'		=>	NULL,
+	        	'link'		=>	NULL,
 	        	'status'	=>	1,
 	        	'created_at'=>	Carbon::now(),
 	        ]

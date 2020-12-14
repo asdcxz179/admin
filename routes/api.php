@@ -33,5 +33,7 @@ Route::prefix('v1')->group(function () {
         Route::resource('Route', 'Restful\RouteController',['only' => ['index']]);
         Route::resource('Manager', 'Restful\ManagerController',['only' => ['index','show','update']]);
         Route::resource('DisableManager', 'Restful\DisableManagerController',['only' => ['update']]);
+
+        Route::resource('Permission', 'Restful\PermissionController',['only' => ['index','update']]);
     });
 });
