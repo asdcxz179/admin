@@ -36,6 +36,7 @@ return [
 
     'Validate_Group'    =>  [
                                 'name'      =>  '群組名稱',
+                                'permission'=>  '群組權限',
                             ],
 
     'Validate_Role'    =>  [

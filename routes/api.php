@@ -28,10 +28,10 @@ Route::prefix('v1')->group(function () {
         Route::get('user', 'AuthController@user');
         Route::resource('Refresh', 'JwtAuth\RefreshController',['only' => ['index']]);
         Route::resource('Logout', 'JwtAuth\LogoutController',['only' => ['index']]);
-        Route::resource('Group', 'Restful\GroupController',['only' => ['index','show','store','update']]);
-        Route::resource('Role', 'Restful\RoleController',['only' => ['index','show','store','update']]);
+        Route::resource('ManagerGroup', 'Restful\GroupController',['only' => ['index','show','store','update']]);
+        Route::resource('ManagerRole', 'Restful\RoleController',['only' => ['index','show','store','update']]);
         Route::resource('Route', 'Restful\RouteController',['only' => ['index']]);
-        Route::resource('Manager', 'Restful\ManagerController',['only' => ['index','show','update']]);
+        Route::resource('Managers', 'Restful\ManagerController',['only' => ['index','show','update']]);
         Route::resource('DisableManager', 'Restful\DisableManagerController',['only' => ['update']]);
 
         Route::resource('Permission', 'Restful\PermissionController',['only' => ['index','update']]);

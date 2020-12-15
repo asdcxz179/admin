@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Group;
 use Exception;
 use App\Repositories\DataTableRepository;
+use App\Repositories\PermissionRepository;
 
 class GroupController extends Controller
 {
@@ -16,6 +17,7 @@ class GroupController extends Controller
 
     protected $UpdateRules  =   [
                                     'name'  =>  ['required','string'],
+                                    'permission'    =>  [],
                                 ];
     /**
      * Display a listing of the resource.
@@ -76,10 +78,11 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,PermissionRepository $PermissionRepository)
     {
         try{
-            $this->data     =   Group::where(['id'=>$id])->select(['id','name'])->first();
+            $this->data['info'] =   Group::where(['id'=>$id])->select(['id','name'])->first();
+            $this->data['permission']   =   $PermissionRepository->GetPermission('group_id',$id);
             $this->status   =   'success';
         }catch(Exception $e){
             $this->ReturnError($e->getMessage());
@@ -106,7 +109,7 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id,PermissionRepository $PermissionRepository)
     {
         $Validator  =   $this->MakeValidate($request);
         if($Validator){
@@ -115,6 +118,7 @@ class GroupController extends Controller
                 if(!$result){
                     throw new Exception($this->ReturnError('common.UpdateFail'));
                 }
+                $permission     =   $PermissionRepository->SetPermission('group_id',$id,$request->permission);
                 $this->status   =   'success';
                 $this->msg      =   trans('common.UpdateSuccess');
             }catch(Exception $e){
