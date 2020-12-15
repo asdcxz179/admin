@@ -3,6 +3,7 @@
 namespace App\Repositories;
 use App\Route;
 use App\Permission;
+use UserInfoRepository;
 /**
  * Class PermissionRepository.
  */
@@ -112,5 +113,12 @@ class PermissionRepository
                 return false;
             }
         }
+    }
+
+    /* 取得管理員權限 */
+    public function GetManagerPermisstion(){
+        $group  =   UserInfoRepository::GetInfo('group');
+        $role   =   UserInfoRepository::GetInfo('role');
+        return  Permission::where('group_id',$group)->orwhere('role',$role)->groupby('method')->select('method')->pluck('method');
     }
 }
