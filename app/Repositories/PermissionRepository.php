@@ -16,9 +16,6 @@ class PermissionRepository
     private $method     =   [
                                 'index','show','store','update','destroy',
                             ];
-    private $IgnoreRoute    =   [
-                                    'Check.index','Route.index','Permission.index',
-                                ];
 
     public function __construct(){
         $this->AllRoutesName    =   collect(\Route::getRoutes()->getRoutesByName())->mapToGroups(function($item,$key){
@@ -130,7 +127,7 @@ class PermissionRepository
                                 $type       =>  $Id,
                                 'method'    =>  $HasPermission,
                             ];
-                $DeleteResult   =   Permission::where($where)->delete();
+                $DeleteResult   =   Permission::where($where)->first()->delete();
                 if(!$DeleteResult){
                     return false;
                 }
@@ -159,6 +156,6 @@ class PermissionRepository
 
     /* 權限檢查 */
     public function CheckPermission($route){
-        return in_array($route, array_merge($this->IgnoreRoute,$this->GetManagerPermisstion()));
+        return in_array($route, $this->GetManagerPermisstion());
     }
 }
