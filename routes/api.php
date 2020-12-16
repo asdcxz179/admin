@@ -21,8 +21,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
 	Route::resource('Captcha', 'Restful\CaptchaController',['only' => ['index']]);
 	Route::resource('Login', 'JwtAuth\LoginController',['only' => ['store']]);
-    Route::group(['middleware' => 'auth:api'], function(){
+    Route::group(['middleware' => [
+                                    'auth:api',
+                                    \App\Http\Middleware\ApiPermission::class,
+                                    ]], function(){
         Route::resource('Check', 'JwtAuth\CheckController',['only' => ['index']]);
+        Route::resource('Route', 'Restful\RouteController',['only' => ['index']]);
+        Route::resource('Permission', 'Restful\PermissionController',['only' => ['index','update']]);
+
         Route::resource('Register', 'JwtAuth\RegisterController',['only' => ['store']]);
         Route::resource('ChangePassword', 'JwtAuth\ChangePasswordController',['only' => ['update']]);
         Route::get('user', 'AuthController@user');
@@ -30,12 +36,11 @@ Route::prefix('v1')->group(function () {
         Route::resource('Logout', 'JwtAuth\LogoutController',['only' => ['index']]);
         Route::resource('ManagerGroup', 'Restful\GroupController',['only' => ['index','show','store','update']]);
         Route::resource('ManagerRole', 'Restful\RoleController',['only' => ['index','show','store','update']]);
-        Route::resource('Route', 'Restful\RouteController',['only' => ['index']]);
         Route::resource('Managers', 'Restful\ManagerController',['only' => ['index','show','update']]);
         Route::resource('DisableManager', 'Restful\DisableManagerController',['only' => ['update']]);
         Route::resource('Dashboard', 'Restful\DashboardController',['only' => ['index']]);
         Route::resource('Settings', 'Restful\SettingsController',['only' => ['index']]);
 
-        Route::resource('Permission', 'Restful\PermissionController',['only' => ['index','update']]);
+        
     });
 });

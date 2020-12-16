@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Route;
 use App\Permission;
 use App\Repositories\UserInfoRepository;
+use Auth;
 /**
  * Class PermissionRepository.
  */
@@ -15,6 +16,9 @@ class PermissionRepository
     private $method     =   [
                                 'index','show','store','update','destroy',
                             ];
+    private $IgnoreRoute    =   [
+                                    'Check.index','Route.index','Permission.index',
+                                ];
 
     public function __construct(){
         $this->AllRoutesName    =   collect(\Route::getRoutes()->getRoutesByName())->mapToGroups(function($item,$key){
@@ -84,12 +88,10 @@ class PermissionRepository
                 $method     =   [];
                 if($new_item['link']){
                     $method  = $this->MakeRouteMethod($new_item['link'])->toArray();
-                    // $new_item->put('children',collect($method));
                 }
                 if($children->count()){
                     $sub_children   =   collect($Sub($children))->values()->toArray();
                     $method     =   array_merge($method,$sub_children);
-                    // $new_item->put('children', collect($Sub($children))->values()->toArray());
                 }
                 $new_item->put('children',collect($method));
                 return $new_item;
@@ -153,5 +155,10 @@ class PermissionRepository
         $group  =   $this->UserInfoRepository->GetInfo('group');
         $role   =   $this->UserInfoRepository->GetInfo('role');
         return  Permission::where('group_id',$group)->orwhere('role_id',$role)->groupby('method')->select('method')->pluck('method')->toArray();
+    }
+
+    /* 權限檢查 */
+    public function CheckPermission($route){
+        return in_array($route, array_merge($this->IgnoreRoute,$this->GetManagerPermisstion()));
     }
 }

@@ -21,9 +21,9 @@ Trait RestfulRepository
      */
     public function ReturnHandle(){
         $json   =   [
-                            'status'    =>  $this->status,
-                            'message'   =>  $this->msg,
-                        ];
+                        'status'    =>  $this->status,
+                        'message'   =>  $this->msg,
+                    ];
         if($this->status!='success' && $this->error_code){
             $json['error_code']     =   $this->error_code;
         }
