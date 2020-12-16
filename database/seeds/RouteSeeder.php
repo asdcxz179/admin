@@ -77,6 +77,15 @@ class RouteSeeder extends Seeder
 	        	'link'		=>	NULL,
 	        	'status'	=>	1,
 	        	'created_at'=>	Carbon::now(),
+	        ],[
+	        	'id'		=>	8,
+	        	'name'		=>	'disable_manager',
+	        	'parent_id'	=>	4,
+	        	'seq'		=>	0,
+	        	'icon'		=>	'fa-ban',
+	        	'link'		=>	'DisableManager',
+	        	'status'	=>	1,
+	        	'created_at'=>	Carbon::now(),
 	        ]
 	    ]);
     }
