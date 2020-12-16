@@ -3,7 +3,7 @@
 namespace App\Repositories;
 use App\Route;
 use App\Permission;
-use UserInfoRepository;
+use App\Repositories\UserInfoRepository;
 /**
  * Class PermissionRepository.
  */
@@ -24,6 +24,7 @@ class PermissionRepository
                                     }
                                 })->toArray();
         $this->AllRoute     =   $this->GetAllRoute();
+        $this->UserInfoRepository =     new UserInfoRepository();
     }
 
     /* 取得route 資料表 */
@@ -32,38 +33,70 @@ class PermissionRepository
     }
 
     /* 取得子層資料 */
-    public function MakeMenuSub(){
-        return $this->AllRoute->where('parent_id', 0);
+    public function MakeMenuSub($id=0){
+        return $this->AllRoute->where('parent_id', $id);
     }
 
     /* 製作左側選單 */
     public function GetMenuList(){
         $Parents    =   $this->MakeMenuSub();
-        $Permission =   $Parents->map(function($root_item) use ( $Routes ) {
-            $father_item = collect($root_item);
-            $children = $Routes->where('parent_id', $father_item['id'])->values()->toArray();
-            $father_item->put('children', collect($children));
-            return $father_item;
+        $ManagerPermission = $this->GetManagerPermisstion();
+        $MakeMenu   =   function($item,$data) use ($ManagerPermission){
+            if(!in_array($data->link.'.index', $ManagerPermission) && $data->link){
+                return [];
+            }
+            $item->put('text',$data->name);
+            $item->put('icon',$data->icon);
+            $item->put('link',$data->link);
+            return $item;    
+        };
+        $Permission =   $Parents->map(function($item) use ($MakeMenu){
+            $new_item = collect([]);
+            $new_item  = $MakeMenu($new_item,$item);
+            if($new_item){
+                $children = $this->AllRoute->where('parent_id', $item['id'])->values()->map(function($item) use ($MakeMenu){
+                    $new_item = collect([]);
+                    $new_item = $MakeMenu($new_item,$item);
+                    return $new_item;
+                })->toArray();
+                $children = array_filter($children);
+                if($children){
+                    $new_item->put('children', collect($children));
+                    $new_item->put('icon-alt','mdi-chevron-down');    
+                }else if(!$item->link){
+                    return [];
+                }
+            }
+            return $new_item;
         });
-        return $Permission;
+        return  array_filter($Permission->toArray());
     }
+
 
     /* 取得權限列表 */
     public function GetRouteList(){
     	$Parents   =   $this->MakeMenuSub();
-    	$Permission=   $Parents->map(function($root_item){
-    		$father_item = collect($root_item);
-    		$children = $this->AllRoute->where('parent_id', $father_item['id']);
-            $children   =   $children->map(function($item){
-                                $sub_item   =   collect($item);
-                                $sub_item->put('children',$this->MakeRouteMethod($item['link']));    
-                                return $sub_item;
-                            });
-            $children   =   $children->values()->toArray();
-    		$father_item->put('children', collect($children));
-    		return $father_item;
-    	});
-    	return $Permission;
+
+        $Sub    =   function($items) use (&$Sub){
+            $new_items = $items->map(function($item) use (&$Sub){
+                $new_item   =   collect($item);
+                $children = $this->MakeMenuSub($new_item['id']);
+                $method     =   [];
+                if($new_item['link']){
+                    $method  = $this->MakeRouteMethod($new_item['link'])->toArray();
+                    // $new_item->put('children',collect($method));
+                }
+                if($children->count()){
+                    $sub_children   =   collect($Sub($children))->values()->toArray();
+                    $method     =   array_merge($method,$sub_children);
+                    // $new_item->put('children', collect($Sub($children))->values()->toArray());
+                }
+                $new_item->put('children',collect($method));
+                return $new_item;
+            });
+            return $new_items;
+        };
+    	return $Sub($Parents);
     }
 
     public function MakeRouteMethod($route){
@@ -117,8 +150,8 @@ class PermissionRepository
 
     /* 取得管理員權限 */
     public function GetManagerPermisstion(){
-        $group  =   UserInfoRepository::GetInfo('group');
-        $role   =   UserInfoRepository::GetInfo('role');
-        return  Permission::where('group_id',$group)->orwhere('role',$role)->groupby('method')->select('method')->pluck('method');
+        $group  =   $this->UserInfoRepository->GetInfo('group');
+        $role   =   $this->UserInfoRepository->GetInfo('role');
+        return  Permission::where('group_id',$group)->orwhere('role_id',$role)->groupby('method')->select('method')->pluck('method')->toArray();
     }
 }

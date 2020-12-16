@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Route;
 use Exception;
+use App\Repositories\PermissionRepository;
 
 class RouteController extends Controller
 {
@@ -14,29 +15,10 @@ class RouteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(PermissionRepository $PermissionRepository)
     {
         try{
-            $routes     =   Route::select(['id','name','parent_id','icon','link'])->where('status',1)->orderby('parent_id')->get();
-            foreach ($routes as $route) {
-                if($route->parent_id==0){
-                    $this->data[$route->id] =   [
-                                                    'icon'      =>  $route->icon,
-                                                    'text'      =>  $route->name,
-                                                    'icon-alt'  =>  'mdi-chevron-down',
-                                                    'link'      =>  $route->link,
-                                                ];
-                }else{
-                    if(isset($this->data[$route->parent_id])){
-                        $this->data[$route->parent_id]['children'][$route->id]  =   [
-                                                                                        'icon'  =>  $route->icon,
-                                                                                        'text'  =>  $route->name,
-                                                                                        'link'  =>  $route->link,
-                                                                                    ];
-                    }
-                }
-                
-            }
+            $this->data     =   $PermissionRepository->GetMenuList();
             $this->status   =   'success';
         }catch(Exception $e){
             $this->ReturnError($e->getMessage());

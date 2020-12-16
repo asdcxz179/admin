@@ -11,6 +11,7 @@ use Auth;
  */
 class UserInfoRepository
 {
+	/* 取得使用者設定 */
 	public function GetInfo($key,$id=''){
 		if(!$id){
 			$id =	Auth::user()->id;
