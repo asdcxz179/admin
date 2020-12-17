@@ -87,7 +87,7 @@ class SettingsController extends Controller
                                     'key'   =>  $key,
                                 ];
                     $data   =   [
-                                    'value' =>  $value,
+                                    'value' =>  (preg_match("/datetime/",$key))?date("Y-m-d H:i:s",strtotime($value)):$value,
                                 ];
                     $result     =   Settings::updateOrCreate($where,$data);
                     if(!$result){
