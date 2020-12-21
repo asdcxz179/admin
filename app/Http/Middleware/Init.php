@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Config;
 
 class Init
 {
@@ -15,6 +16,7 @@ class Init
      */
     public function handle($request, Closure $next)
     {
+        Config::set('auth.defaults.guard','api');
         $lang   =    $request->cookie('lang');
         if($lang){
             app()->setLocale($lang);            

@@ -87,7 +87,7 @@ class SettingsController extends Controller
                                     'key'   =>  $key,
                                 ];
                     $data   =   [
-                                    'value' =>  $value,
+                                    'value' =>  (in_array($key, ['web_ico']))?createImage($value,$key):$value,
                                 ];
                     $result     =   Settings::updateOrCreate($where,$data);
                     if(!$result){
