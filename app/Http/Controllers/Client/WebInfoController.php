@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Restful;
+namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\SystemSettingRepository;
-use App\Settings;
 
-class SettingsController extends Controller
+class WebInfoController extends Controller
 {
-    protected $UpdateRules  =   [
-                                ];
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +16,7 @@ class SettingsController extends Controller
     public function index(SystemSettingRepository $SystemSettingRepository)
     {
         try{
-            $this->data     =   $SystemSettingRepository->GetSettings();
+            $this->data     =   $SystemSettingRepository->GetSettings(['web_name','web_ico']);
             $this->status   =   'success';
         }catch(Exception $e){
             $this->ReturnError($e->getMessage());
@@ -80,29 +77,7 @@ class SettingsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $Validator  =   $this->MakeValidate($request);
-        // if($Validator){
-            try{
-                foreach ($request->all() as $key => $value) {
-                    $where  =   [
-                                    'key'   =>  $key,
-                                ];
-                    $data   =   [
-                                    'value' =>  (in_array($key, ['web_ico']))?env('APP_URL').createImage($value,$key) :$value,
-                                ];
-                    $result     =   Settings::updateOrCreate($where,$data);
-                    if(!$result){
-                        throw new Exception($this->ReturnError('common.UpdateFail'));
-                    }    
-                }
-                $this->status   =   'success';
-                $this->msg      =   trans('common.UpdateSuccess');
-            }catch(Exception $e){
-                $this->ReturnError($e->getMessage());
-                $this->msg  =   $e->getMessage();
-            }   
-        // }
-        return $this->ReturnHandle();
+        //
     }
 
     /**

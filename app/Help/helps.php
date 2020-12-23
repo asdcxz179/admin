@@ -22,5 +22,5 @@
             	throw new Exception(trans('error.ImageUploadFail'));
             }
         }
-        return '/storage/'.$file;
+        return '/storage/'.$file.'?'.time();
     }
