@@ -1,28 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Restful;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Repositories\SystemSettingRepository;
 
-class WebInfoController extends Controller
+class PersonalController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(SystemSettingRepository $SystemSettingRepository)
+    public function index()
     {
-        try{
-            $this->data     =   $SystemSettingRepository->GetSettings(['web_name','web_ico','avatar','personal_name']);
-            $this->status   =   'success';
-        }catch(Exception $e){
-            $this->ReturnError($e->getMessage());
-            $this->msg  =   $e->getMessage();
-        }
-        return $this->ReturnHandle();
+        //
     }
 
     /**
