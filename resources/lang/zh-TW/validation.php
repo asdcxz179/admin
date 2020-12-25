@@ -32,7 +32,7 @@ return [
     'boolean'              => 'The :attribute field must be true or false.',
     'confirmed'            => ':attribute 與 確認:attribute 欄位資料不相符。',
     'date'                 => 'The :attribute is not a valid date.',
-    'date_format'          => 'The :attribute does not match the format :format.',
+    'date_format'          => ':attribute 不符合格式 :format',
     'different'            => 'The :attribute and :other must be different.',
     'digits'               => 'The :attribute must be :digits digits.',
     'digits_between'       => 'The :attribute must be between :min and :max digits.',

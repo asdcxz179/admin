@@ -45,6 +45,14 @@ return [
     'Validate_ChangePassword'   =>  [
                                         'password'  =>  $password,
                                     ],
+    'Validate_Experience'   =>  [
+                                    'job_content'   =>  '工作內容',
+                                    'job_title'     =>  '工作職稱',
+                                    'job_company'   =>  '工作公司',
+                                    'job_start_date'=>  '工作開始日期',
+                                    'job_end_date'  =>  '工作結束日期',
+                                    'status'        =>  '狀態',
+                                ],
 
     /* 反饋信息 */
     'LoginSuccess'      =>  '登入成功',

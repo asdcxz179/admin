@@ -86,6 +86,24 @@ class RouteSeeder extends Seeder
 	        	'link'		=>	'DisableManager',
 	        	'status'	=>	1,
 	        	'created_at'=>	Carbon::now(),
+	        ],[
+	        	'id'		=>	9,
+	        	'name'		=>	'personal_manager',
+	        	'parent_id'	=>	0,
+	        	'seq'		=>	0,
+	        	'icon'		=>	'fa-user-edit',
+	        	'link'		=>	NULL,
+	        	'status'	=>	1,
+	        	'created_at'=>	Carbon::now(),
+	        ],[
+	        	'id'		=>	10,
+	        	'name'		=>	'experience_manager',
+	        	'parent_id'	=>	9,
+	        	'seq'		=>	0,
+	        	'icon'		=>	'fa-address-book',
+	        	'link'		=>	'Experience',
+	        	'status'	=>	1,
+	        	'created_at'=>	Carbon::now(),
 	        ]
 	    ]);
     }
