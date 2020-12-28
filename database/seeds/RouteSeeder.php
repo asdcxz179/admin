@@ -105,6 +105,16 @@ class RouteSeeder extends Seeder
 	        	'status'	=>	1,
 	        	'created_at'=>	Carbon::now(),
 	        ]
+	        ,[
+	        	'id'		=>	11,
+	        	'name'		=>	'webpage_manager',
+	        	'parent_id'	=>	1,
+	        	'seq'		=>	0,
+	        	'icon'		=>	'fa-address-book',
+	        	'link'		=>	'WebPage',
+	        	'status'	=>	1,
+	        	'created_at'=>	Carbon::now(),
+	        ]
 	    ]);
     }
 }

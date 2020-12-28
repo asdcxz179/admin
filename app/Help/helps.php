@@ -2,7 +2,7 @@
 	use Illuminate\Support\Facades\Storage;
 
 	function createImage($base64,$name){
-        if (preg_match('/^data:image\/(.*);base64,/', $base64, $type)) {
+        if (preg_match('/^data:image\/(.*?);base64,/', $base64, $type)) {
             $uploadimage = substr($base64, strpos($base64, ',') + 1);
             $type = strtolower($type[1]); // jpg, png, gif
             switch ($type) {

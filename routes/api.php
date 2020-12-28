@@ -56,8 +56,10 @@ Route::prefix('v1')->group(function () {
             Route::resource('Dashboard', 'Restful\DashboardController',['only' => ['index']]);
             /* 系統設定 */
             Route::resource('Settings', 'Restful\SettingsController',['only' => ['index','update']]);
-            /* 系統設定 */
+            /* 經歷管理 */
             Route::resource('Experience', 'Restful\ExperienceController',['only' => ['index','update','show','store','destroy']]);
+            /* 頁面管理 */
+            Route::resource('WebPage', 'Restful\WebPageController',['only' => ['index','update','show']]);
         });
     });
 });
