@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Repositories\WebPageRepository;
+use Exception;
 
 class WebContentController extends Controller
 {
@@ -12,9 +14,16 @@ class WebContentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(WebPageRepository $WebPageRepository)
     {
-        //
+        try{
+            $this->data     =   $WebPageRepository->GetWabPage();
+            $this->status   =   'success';
+        }catch(Exception $e){
+            $this->ReturnError($e->getMessage());
+            $this->msg  =   $e->getMessage();
+        }
+        return $this->ReturnHandle();
     }
 
     /**
