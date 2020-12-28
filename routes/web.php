@@ -21,3 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home.index');
 
 
 Route::resource('WebInfo', 'Client\WebInfoController',['only' => ['index']]);
+
+Route::resource('WebContent', 'Client\WebContentController',['only' => ['index']]);
+
+Route::resource('Experience', 'Client\ExperienceController',['only' => ['index']]);
