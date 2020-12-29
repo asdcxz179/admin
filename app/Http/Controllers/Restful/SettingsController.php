@@ -88,7 +88,7 @@ class SettingsController extends Controller
                                     'key'   =>  $key,
                                 ];
                     $data   =   [
-                                    'value' =>  (preg_match('/^data:image\/(.*);base64,/', $value))?env('APP_URL').createImage($value,$key) :$value,
+                                    'value' =>  (preg_match('/^data:image\/(.*?);base64,/', $value))?env('APP_URL').createImage($value,$key) :$value,
                                 ];
                     $result     =   Settings::updateOrCreate($where,$data);
                     if(!$result){
