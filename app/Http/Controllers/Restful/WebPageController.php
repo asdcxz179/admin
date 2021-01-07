@@ -83,7 +83,7 @@ class WebPageController extends Controller
             $where  =   [
                             'page_title'   =>  $id,
                         ];
-            $content    =   preg_replace_callback('/"(data:image.*;base64,.*?)"/is',
+            $content    =   preg_replace_callback('/"(data:image.*?;base64,.*?)"/is',
                                 function($match) use ($id){
                                     if(isset($match[1])){
                                         return env('APP_URL').createImage($match[1],$id.'/'.Str::uuid());    

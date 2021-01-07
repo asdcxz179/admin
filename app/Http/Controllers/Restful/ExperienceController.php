@@ -64,11 +64,18 @@ class ExperienceController extends Controller
         $Validator  =   $this->MakeValidate($request);
         if($Validator){
             try{
+                $id     =   Str::uuid();
+                $content    =   preg_replace_callback('/"(data:image.*?;base64,.*?)"/is',
+                                                    function($match) use ($id){
+                                                        if(isset($match[1])){
+                                                            return env('APP_URL').createImage($match[1],$id.'/'.Str::uuid());    
+                                                        }
+                                                    },$request->job_content);
                 $InsertData =   [
-                                    'uuid'          =>  Str::uuid(),
+                                    'uuid'          =>  $id,
                                     'job_company'   =>  $request->job_company,
                                     'job_title'     =>  $request->job_title,
-                                    'job_content'   =>  $request->job_content,
+                                    'job_content'   =>  $content,
                                     'job_start_date'=>  $request->job_start_date,
                                     'job_end_date'  =>  $request->job_end_date,
                                     'status'        =>  $request->status,
@@ -128,10 +135,16 @@ class ExperienceController extends Controller
         $Validator  =   $this->MakeValidate($request);
         if($Validator){
             try{
+                $content    =   preg_replace_callback('/"(data:image.*?;base64,.*?)"/is',
+                                                    function($match) use ($id){
+                                                        if(isset($match[1])){
+                                                            return env('APP_URL').createImage($match[1],$id.'/'.Str::uuid());    
+                                                        }
+                                                    },$request->job_content);
                 $UpdateData =   [
                                     'job_company'   =>  $request->job_company,
                                     'job_title'     =>  $request->job_title,
-                                    'job_content'   =>  $request->job_content,
+                                    'job_content'   =>  $content,
                                     'job_start_date'=>  $request->job_start_date,
                                     'job_end_date'  =>  $request->job_end_date,
                                     'status'        =>  $request->status,
