@@ -29,3 +29,14 @@ Route::resource('WebInfo', 'Client\WebInfoController',['only' => ['index']]);
 Route::resource('WebContent', 'Client\WebContentController',['only' => ['index']]);
 
 Route::resource('Experience', 'Client\ExperienceController',['only' => ['index']]);
+
+Route::resource('Contact', 'Client\ContactController',['only' => ['store']]);
+
+use Illuminate\Http\Request;
+
+Route::get('/Token', function (Request $request) {
+    $token = $request->session()->token();
+
+    $token = csrf_token();
+    return $token;
+});
