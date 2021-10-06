@@ -6,7 +6,7 @@
 3. MariaDB - 10.3.27
 
 ## Installation
-1. git clone https://github.com/asdcxz179/admin.git
+1. `git clone https://github.com/asdcxz179/admin.git`
 2. cd admin
 3. composer install
 4. cp .env.example .env
