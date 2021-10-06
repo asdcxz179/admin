@@ -10,7 +10,7 @@
 2. `cd admin`
 3. `composer install`
 4. `cp .env.example .env`
-5. `change .env db setting`
+5. edit your .env file
 6. `php artisan key:generate`
 7. `php artisan jwt:secret`
 8. `php artisan migrate`
