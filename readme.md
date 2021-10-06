@@ -2,7 +2,7 @@
 
 ## Environment
 1. Laravel - 6.18.18
-2. 2. PHP > 7.3
+2. PHP > 7.3
 3. MariaDB - 10.3.27
 
 ## Installation
