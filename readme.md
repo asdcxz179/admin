@@ -15,4 +15,3 @@
 7. `php artisan jwt:secret`
 8. `php artisan migrate`
 9. `php artisan db:seed`
-10. `php artisan serve`
