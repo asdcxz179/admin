@@ -7,12 +7,12 @@
 
 ## Installation
 1. `git clone https://github.com/asdcxz179/admin.git`
-2. cd admin
-3. composer install
-4. cp .env.example .env
-5. change .env db setting
-6. php artisan key:generate
-7. php artisan jwt:secret
-8. php artisan migrate
-9. php artisan db:seed
-10. php artisan serve
+2. `cd admin`
+3. `composer install`
+4. `cp .env.example .env`
+5. `change .env db setting`
+6. `php artisan key:generate`
+7. `php artisan jwt:secret`
+8. `php artisan migrate`
+9. `php artisan db:seed`
+10. `php artisan serve`
