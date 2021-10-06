@@ -1,11 +1,11 @@
-# 網站API
+# Website
 
-### 環境介紹
+### Environment
 ##### 1. Laravel - 6.18.18
 ##### 2. PHP > 7.3
 ##### 3. MariaDB - 10.3.27
 
-### 安裝流程
+### Installation
 ##### 1. git clone https://github.com/asdcxz179/admin.git
 ##### 2. cd admin
 ##### 3. composer install
