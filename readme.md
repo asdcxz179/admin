@@ -1,11 +1,11 @@
 # Website
 
-### Environment
+## Environment
 ##### 1. Laravel - 6.18.18
 ##### 2. PHP > 7.3
 ##### 3. MariaDB - 10.3.27
 
-### Installation
+## Installation
 ##### 1. git clone https://github.com/asdcxz179/admin.git
 ##### 2. cd admin
 ##### 3. composer install
